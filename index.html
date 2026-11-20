@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plastics Pyrolysis Plant | 3D Interactive Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">☀</span><div><strong>SUNLOOP</strong><small>AI • SOLAR • CIRCULAR ENERGY</small></div></div>
+  <div class="top-status"><span class="live-dot"></span> DIGITAL TWIN <span class="status-pill">SIMULATION</span></div>
+</header>
+<main>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">ENVIRONMENT & SUSTAINABILITY · CONCEPT PROTOTYPE</p>
+      <h1>Plastics Pyrolysis<br><em>Plant</em></h1>
+      <p class="intro">An interactive 3D concept showing feedstock handling, a sealed reactor, cyclone separation, condensation and illustrative product collection.</p>
+      <div class="hero-tags"><span>Feedstock handling</span><span>Sealed reactor</span><span>Vapour capture</span><span>Product recovery</span></div>
+    </div>
+    <div class="hero-callout"><span class="sun-icon">♻</span><div><b>Material in</b><small>Sorted plastic feed</small></div><span class="arrow">→</span><div><b>Products out</b><small>Liquid · gas · char</small></div></div>
+  </section>
+
+  <section class="workspace">
+    <div class="scene-panel panel">
+      <div class="panel-head"><div><p class="eyebrow">LIVE SYSTEM VIEW</p><h2>Plastic pyrolysis plant · 3D view</h2></div><div class="scene-actions"><button id="autoRotate" class="control">Auto rotate: OFF</button><button id="resetView" class="control">Reset view</button></div></div>
+      <div id="sceneWrap">
+        <div id="scene"></div>
+        <div class="scene-legend">
+          <span><i class="legend-dot solar"></i> Feed handling</span>
+          <span><i class="legend-dot reactor"></i> Sealed reactor</span>
+          <span><i class="legend-dot condenser"></i> Cyclone / condenser</span>
+          <span><i class="legend-dot output"></i> Product storage</span>
+        </div>
+        <div class="scene-hint">Drag to orbit · Scroll to zoom · Visual concept only</div>
+      </div>
+      <div class="process-strip">
+        <button class="process-step selected" data-step="0"><b>01</b><span>Sort feed</span></button>
+        <button class="process-step" data-step="1"><b>02</b><span>Feed system</span></button>
+        <button class="process-step" data-step="2"><b>03</b><span>Pyrolysis</span></button>
+        <button class="process-step" data-step="3"><b>04</b><span>Separate</span></button>
+        <button class="process-step" data-step="4"><b>05</b><span>Condense</span></button>
+        <button class="process-step" data-step="5"><b>06</b><span>Collect</span></button>
+      </div>
+    </div>
+
+    <aside class="side-column">
+      <div class="panel control-panel">
+        <div class="panel-head"><div><p class="eyebrow">CONTROL CENTRE</p><h2>Simulation controls</h2></div><span class="badge">DEMO</span></div>
+        <label class="field-label" for="sunRange">Solar intensity <strong id="sunValue">850 W/m²</strong></label>
+        <input id="sunRange" type="range" min="200" max="1000" value="850" />
+        <label class="field-label" for="plasticRange">Plastic feed rate <strong id="plasticValue">1.0 kg/h</strong></label>
+        <input id="plasticRange" type="range" min="0" max="20" value="10" />
+        <div class="button-row"><button id="startBtn" class="primary">▶ Start simulation</button><button id="pauseBtn" class="secondary">Ⅱ Pause</button></div>
+        <div class="system-lights" role="status" aria-label="Illustrative startup status lights">
+          <span class="signal-light lit" data-signal-light="red"><i></i>RED</span>
+          <span class="signal-light" data-signal-light="yellow"><i></i>YELLOW</span>
+          <span class="signal-light" data-signal-light="green"><i></i>GREEN</span>
+        </div>
+        <div class="notice"><b>Prototype note</b><br>Readings, lens beam and energy conversion are illustrative visuals only, not measured performance or operating guidance.</div>
+      </div>
+      <div class="panel metrics-panel">
+        <div class="panel-head"><div><p class="eyebrow">SIMULATED TELEMETRY</p><h2>System readings</h2></div><span class="live-label"><i class="live-dot"></i> <span id="runState">READY</span></span></div>
+        <div class="metric-grid">
+          <div class="metric"><small>Reactor temperature</small><strong id="tempMetric">25<span>°C</span></strong><div class="meter"><i id="tempBar"></i></div></div>
+          <div class="metric"><small>Solar input</small><strong id="solarMetric">850<span> W/m²</span></strong><div class="meter"><i id="solarBar"></i></div></div>
+          <div class="metric"><small>Oil output estimate</small><strong id="oilMetric">0.00<span> kg/h</span></strong><div class="meter"><i id="oilBar"></i></div></div>
+          <div class="metric"><small>Recovered power estimate</small><strong id="powerMetric">0<span> W</span></strong><div class="meter"><i id="powerBar"></i></div></div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="lower-grid">
+    <div class="panel explanation">
+      <p class="eyebrow">HOW THE CONCEPT WORKS</p><h2 id="stepTitle">01 · Sort and inspect feedstock</h2>
+      <p id="stepDescription">The concept starts with sorted, characterised material. Contaminants are separated before any process stage; PVC is excluded from this illustrative feed.</p>
+      <div class="safety-line"><span>!</span><p><b>Safety and engineering boundary</b><br>This is a visual learning prototype only. Real pyrolysis requires a professionally engineered sealed reactor, pressure relief, gas detection, vapour treatment, fire protection and qualified supervision. Do not build or heat a homemade reactor.</p></div>
+    </div>
+    <div class="panel flow-panel">
+      <p class="eyebrow">PLANT FUNCTIONS & PIPELINE</p><h2>Material process flow</h2>
+      <div class="flow pipeline" aria-label="Select a pipeline stage">
+        <button class="flow-node selected" data-step="0"><span class="flow-icon">♻</span><b>Feedstock<br>sorting</b></button><span class="flow-arrow">→</span>
+        <button class="flow-node" data-step="1"><span class="flow-icon">⚙</span><b>Feeding<br>system</b></button><span class="flow-arrow">→</span>
+        <button class="flow-node" data-step="2"><span class="flow-icon">♨</span><b>Sealed<br>reactor</b></button><span class="flow-arrow">→</span>
+        <button class="flow-node" data-step="3"><span class="flow-icon">◉</span><b>Cyclone<br>separator</b></button><span class="flow-arrow">→</span>
+        <button class="flow-node" data-step="4"><span class="flow-icon">≋</span><b>Condenser<br>system</b></button><span class="flow-arrow">→</span>
+        <button class="flow-node" data-step="5"><span class="flow-icon">▣</span><b>Product<br>collection</b></button>
+      </div>
+      <div class="materials-heading"><span class="eyebrow">MATERIALS & SIMULATED OUTPUTS</span><span class="materials-note">Illustrative only</span></div>
+      <div class="outputs">
+        <div><i class="feed-dot"></i><b>Sorted plastic feed</b><small>Characterised feedstock; PVC excluded</small></div>
+        <div><i class="oil-dot"></i><b>Condensed liquid</b><small>Pyrolysis oil; testing and upgrading required</small></div>
+        <div><i class="gas-dot"></i><b>Non-condensable gas</b><small>Requires designed capture and treatment</small></div>
+        <div><i class="char-dot"></i><b>Char / solid residue</b><small>Characterise before any reuse</small></div>
+        <div><i class="heat-dot"></i><b>Recovered heat</b><small>Conceptual energy-recovery stream</small></div>
+        <div><i class="reject-dot"></i><b>Sorting rejects</b><small>Contaminants kept out of the process</small></div>
+      </div>
+      <p class="fineprint">Vapours and gases must never be vented untreated. The displayed materials and outputs are conceptual and are not operating instructions or performance predictions.</p>
+    </div>
+  </section>
+  <footer><span>SUNLOOP · CONCEPT DIGITAL TWIN</span><span>HTML · CSS · JavaScript · Three.js</span></footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
